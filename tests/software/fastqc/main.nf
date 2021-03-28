@@ -2,13 +2,13 @@
 
 nextflow.enable.dsl = 2
 
-include { FASTQC } from '../../../software/fastqc/main.nf' addParams( options: [:] )
+include { FASTQC } from '../../../software/fastqc/main.nf' addParams( options: [publish_by:['color']] )
 
 /*
  * Test with single-end data
  */
 workflow test_fastqc_single_end {
-    input = [ [ id:'test', single_end:true ], // meta map
+    input = [ [ id:'test', color:'yellow', single_end:true ], // meta map
               [ file(params.test_data['sarscov2']['illumina']['test_1_fastq_gz'], checkIfExists: true) ] 
             ]
 
@@ -19,7 +19,7 @@ workflow test_fastqc_single_end {
  * Test with paired-end data
  */
 workflow test_fastqc_paired_end {
-    input = [ [id: 'test', single_end: false], // meta map
+    input = [ [id: 'test', color:'yellow', single_end: false], // meta map
               [ file(params.test_data['sarscov2']['illumina']['test_1_fastq_gz'], checkIfExists: true),
                 file(params.test_data['sarscov2']['illumina']['test_2_fastq_gz'], checkIfExists: true) ]
             ]
