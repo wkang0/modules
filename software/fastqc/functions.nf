@@ -18,7 +18,8 @@ def initOptions(Map args) {
     def Map options = [:]
     options.args          = args.args ?: ''
     options.args2         = args.args2 ?: ''
-    options.publish_by_id = args.publish_by_id ?: false
+    options.publish_by_id = args.publish_by_id ?: ''
+    options.publish_by    = args.publish_by ?: []
     options.publish_dir   = args.publish_dir ?: ''
     options.publish_files = args.publish_files
     options.suffix        = args.suffix ?: ''
@@ -43,6 +44,10 @@ def saveFiles(Map args) {
         def path_list = [ ioptions.publish_dir ?: args.publish_dir ]
         if (ioptions.publish_by_id) {
             path_list.add(args.publish_id)
+        }
+        for (key in ioptions.publish_by) {
+            def path = args.meta.containsKey(key)? args.meta[key]: key
+            path_list.add(path)
         }
         if (ioptions.publish_files instanceof Map) {
             for (ext in ioptions.publish_files) {
